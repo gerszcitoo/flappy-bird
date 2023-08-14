@@ -1,0 +1,242 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "8BIT WONDER", sans-serif;
+}
+
+body {
+  background-image: url("../assets/background.webp");
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+/* ------GAME SCREEN------ */
+
+#game {
+  border: 1px solid black;
+  margin: auto;
+  overflow: hidden;
+}
+
+#block {
+  width: 50px;
+  height: 500px;
+  /* background-color: black; */
+  position: relative;
+  /* left: 100%; */
+  left: 400px;
+  animation: block 2s infinite linear;
+}
+
+@keyframes block {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -50px;
+  }
+}
+
+.bar {
+  width: 100%;
+  background-color: black;
+  position: absolute;
+}
+
+#top-bar {
+  height: calc(50% - 75px);
+  top: 0;
+}
+
+#bottom-bar {
+  height: calc(50% - 75px);
+  bottom: 0;
+}
+
+#hole {
+  width: 50px;
+  height: 150px;
+  background-color: white;
+  position: relative;
+  left: 400px;
+  top: -500px;
+  /* display: none; */
+  animation: block 2s infinite linear;
+}
+
+#character {
+  width: 40px;
+  height: 29px;
+  background-image: url(../assets/Flappy-Bird.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  z-index: 3;
+  border: 1px solid red;
+}
+
+#score {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+#best-score {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+/* -----MAIN MENU----- */
+#menu {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#start {
+  padding: 10px;
+}
+
+/* ---START BUTTON--- */
+
+.container {
+  width: 300px;
+}
+
+.button.primary {
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(#3882d7),
+    color-stop(15%, #3882d7),
+    color-stop(15%, #4790e5),
+    color-stop(85%, #4790e5),
+    color-stop(85%, #6badf8),
+    color-stop(100%, #6badf8)
+  );
+  background: -webkit-linear-gradient(
+    bottom,
+    #3882d7,
+    #3882d7 15%,
+    #4790e5 0,
+    #4790e5 85%,
+    #6badf8 0,
+    #6badf8 100%
+  );
+  background: -o-linear-gradient(
+    bottom,
+    #3882d7 0,
+    #3882d7 15%,
+    #4790e5 15%,
+    #4790e5 85%,
+    #6badf8 85%,
+    #6badf8 100%
+  );
+  background: linear-gradient(
+    0deg,
+    #3882d7 0,
+    #3882d7 15%,
+    #4790e5 0,
+    #4790e5 85%,
+    #6badf8 0,
+    #6badf8 100%
+  );
+  color: #fff;
+}
+
+.button {
+  position: relative;
+  color: #192e49;
+  font-size: 1em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1em 1.5em;
+  border-left: 0.5em solid #1f0535;
+  border-right: 0.5em solid #1f0535;
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(#b5cdea),
+    color-stop(15%, #b5cdea),
+    color-stop(15%, #d9e7f7),
+    color-stop(85%, #d9e7f7),
+    color-stop(85%, #e9f1fb),
+    color-stop(100%, #e9f1fb)
+  );
+  background: -webkit-linear-gradient(
+    bottom,
+    #b5cdea,
+    #b5cdea 15%,
+    #d9e7f7 0,
+    #d9e7f7 85%,
+    #e9f1fb 0,
+    #e9f1fb 100%
+  );
+  background: -o-linear-gradient(
+    bottom,
+    #b5cdea 0,
+    #b5cdea 15%,
+    #d9e7f7 15%,
+    #d9e7f7 85%,
+    #e9f1fb 85%,
+    #e9f1fb 100%
+  );
+  background: linear-gradient(
+    0deg,
+    #b5cdea 0,
+    #b5cdea 15%,
+    #d9e7f7 0,
+    #d9e7f7 85%,
+    #e9f1fb 0,
+    #e9f1fb 100%
+  );
+}
+
+.button.large {
+  text-transform: uppercase;
+  padding-top: 1.6em;
+  padding-bottom: 1.6em;
+  display: block;
+}
+
+.button.block {
+  display: block;
+  min-width: 200px;
+}
+
+.button:after {
+  content: "";
+  display: block;
+  top: -0.5em;
+  bottom: -0.5em;
+  left: 0;
+  right: 0;
+  background: #1f0535;
+  position: absolute;
+  z-index: -1;
+}
+
+.button,
+.button:after {
+  -webkit-box-shadow: 0 0.5em 0 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5em 0 0 rgba(0, 0, 0, 0.2);
+}
+
+/* -----PAUSE SCREEN----- */
+#pause-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
