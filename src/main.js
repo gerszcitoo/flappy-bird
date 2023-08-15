@@ -14,6 +14,7 @@ let jumping = 0;
 let counter = 0;
 let pauseStatus = false;
 let startStatus = false;
+let jumpKeyPressed = false;
 
 // -------------MENU INTERFACE-------------
 
@@ -175,6 +176,12 @@ updateBestScore();
 
 // listen for keys to play with keyboard
 window.addEventListener("keydown", function (event) {
+  if (!startStatus && event.key == "Enter") {
+    startStatus = true;
+    game.style.display = "block";
+    score.style.display = "block";
+    startGame();
+  }
   if (event.key == "Escape") {
     if (!pauseStatus) {
       pauseGame();
@@ -190,6 +197,19 @@ window.addEventListener("keydown", function (event) {
     event.key == "w" ||
     event.key == "W"
   ) {
-    jump();
+    if (!jumpKeyPressed) {
+      jumpKeyPressed = true;
+      jump();
+    }
   }
+  window.addEventListener("keyup", function (event) {
+    if (
+      event.key == " " ||
+      event.key == "ArrowUp" ||
+      event.key == "w" ||
+      event.key == "W"
+    ) {
+      jumpKeyPressed = false;
+    }
+  });
 });
