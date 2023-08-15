@@ -36,29 +36,18 @@ pause.addEventListener("click", () => {
 function generateObstacle() {
   let holePosition = {
     top: hole.offsetTop,
-    bottom: hole.offsetBottom,
     height: hole.offsetHeight,
   };
+  // calculates obstacles height based on the holes size
   let positionTopBar = {
     pos: holePosition.top,
   };
-  let positionBottomBar = {
-    pos: holePosition.top + holePosition.height,
-  };
-
-  bottomBar.style.height = `${positionBottomBar.pos}px`;
   topBar.style.height = `${positionTopBar.pos}px`;
+  let positionBottomBar = {
+    pos: 500 - topBar.offsetHeight - holePosition.height,
+  };
+  bottomBar.style.height = `${positionBottomBar.pos}px`;
 }
-
-// Agregar el evento animationiteration fuera de la función startGame()
-hole.addEventListener("animationiteration", () => {
-  if (!pauseStatus) {
-    var random = -(Math.random() * 300 + 150);
-    hole.style.top = random + "px";
-    counter++;
-    generateObstacle();
-  }
-});
 
 start.addEventListener("click", function () {
   startStatus = true;
@@ -68,6 +57,14 @@ start.addEventListener("click", function () {
 });
 
 function startGame() {
+  hole.addEventListener("animationiteration", () => {
+    if (!pauseStatus) {
+      var random = -(Math.random() * 300 + 150);
+      hole.style.top = random + "px";
+      counter++;
+      generateObstacle();
+    }
+  });
   return new Promise((resolve) => {
     if (startStatus) {
       menu.style.display = "none";
@@ -127,7 +124,7 @@ function jump() {
     var characterTop = parseInt(
       window.getComputedStyle(character).getPropertyValue("top")
     );
-    if (characterTop > 6 && jumpCount < 15) {
+    if (characterTop > 6 && jumpCount < 15 && startStatus && !pauseStatus) {
       character.style.top = characterTop - 5 + "px";
     }
     if (jumpCount > 20) {

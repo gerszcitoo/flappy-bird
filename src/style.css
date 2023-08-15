@@ -21,10 +21,18 @@ body {
   overflow: hidden;
 }
 
+.grass {
+  height: 160vh;
+  width: 100vw;
+  position: absolute;
+  top: -366px;
+  background-image: url(../assets/grass.png);
+  z-index: 10;
+}
+
 #block {
   width: 50px;
   height: 500px;
-  /* background-color: black; */
   position: relative;
   /* left: 100%; */
   left: 400px;
@@ -47,19 +55,27 @@ body {
 }
 
 #top-bar {
-  height: calc(50% - 75px);
+  background-image: url("../assets/pipe-green.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: rotate(180deg);
+  height: 0;
   top: 0;
 }
 
 #bottom-bar {
-  height: calc(50% - 75px);
+  height: 346px;
+  background-image: url("../assets/pipe-green.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   bottom: 0;
 }
 
 #hole {
   width: 50px;
   height: 150px;
-  background-color: white;
+  /* background-color: white; */
+  border: 2px solid red;
   position: relative;
   left: 400px;
   top: -500px;
@@ -239,4 +255,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 999;
+  top: -100px;
 }
