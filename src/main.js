@@ -15,24 +15,43 @@ let counter = 0;
 let pauseStatus = false;
 let startStatus = false;
 
-// function pauseGame() {
-pause.addEventListener("click", () => {
+// -------------MENU INTERFACE-------------
+
+// ----START GAME----
+start.addEventListener("click", function () {
+  startStatus = true;
+  game.style.display = "block";
+  score.style.display = "block";
+  startGame();
+});
+
+// ----PAUSE GAME----
+function pauseGame() {
   pauseStatus = true;
   pause.style.display = "none";
   resume.style.display = "block";
   block.style.animation = "none";
   hole.style.animation = "none";
+}
+// ----RESUME GAME----
+function resumeGame() {
+  pauseStatus = false;
+  pause.style.display = "block";
+  resume.style.display = "none";
+  block.style.animation = "block 2s infinite linear";
+  hole.style.animation = "block 2s infinite linear";
+}
+// PAUSE/RESUME BY BUTTON
+pause.addEventListener("click", () => {
+  pauseGame();
   resume.addEventListener("click", () => {
-    pauseStatus = false;
-    pause.style.display = "block";
-    resume.style.display = "none";
-    block.style.animation = "block 2s infinite linear";
-    hole.style.animation = "block 2s infinite linear";
+    resumeGame();
   });
 });
-// }
 
-// This generates the visible obstacle
+// -------------GAME-------------
+
+// ----GENERATE VISIBLE OBSTACLE----
 function generateObstacle() {
   let holePosition = {
     top: hole.offsetTop,
@@ -43,30 +62,31 @@ function generateObstacle() {
     pos: holePosition.top,
   };
   topBar.style.height = `${positionTopBar.pos}px`;
-  let positionBottomBar = {
-    pos: 500 - topBar.offsetHeight - holePosition.height,
-  };
-  bottomBar.style.height = `${positionBottomBar.pos}px`;
+  if (holePosition.top > -551) {
+    let positionBottomBar = {
+      pos: 500 - topBar.offsetHeight - holePosition.height,
+    };
+    bottomBar.style.height = `${positionBottomBar.pos}px`;
+  } else {
+    bottomBar.style.height = "0px";
+  }
 }
 
-start.addEventListener("click", function () {
-  startStatus = true;
-  game.style.display = "block";
-  score.style.display = "block";
-  startGame();
+// ----GENERATE HOLE----
+hole.addEventListener("animationiteration", () => {
+  if (!pauseStatus) {
+    var random = -(Math.random() * 300 + 150);
+    hole.style.top = random + "px";
+    counter++;
+    generateObstacle();
+  }
 });
 
+// ----GAME LOGIC----
 function startGame() {
-  hole.addEventListener("animationiteration", () => {
-    if (!pauseStatus) {
-      var random = -(Math.random() * 300 + 150);
-      hole.style.top = random + "px";
-      counter++;
-      generateObstacle();
-    }
-  });
   return new Promise((resolve) => {
     if (startStatus) {
+      // hides menu interface
       menu.style.display = "none";
       bestScoreMarker.style.display = "none";
       var gameInterval = setInterval(function () {
@@ -76,16 +96,19 @@ function startGame() {
           var characterTop = parseInt(
             window.getComputedStyle(character).getPropertyValue("top")
           );
+          // falls if is not jumping
           if (jumping === 0) {
             character.style.top = characterTop + 3 + "px";
           }
+          // recognizes blocks and hole hitbox
           var blockLeft = parseInt(
-            window.getComputedStyle(block).getPropertyValue("left")
+            window.getComputedStyle(block).getPropertyValue("right")
           );
           var holeTop = parseInt(
             window.getComputedStyle(hole).getPropertyValue("top")
           );
           var cTop = -(500 - characterTop);
+          // lose condition
           if (
             characterTop > 480 ||
             (blockLeft < 20 &&
@@ -108,7 +131,7 @@ function startGame() {
               updateBestScore(counter);
               counter = 0;
               startStatus = false;
-              resolve(); // Resuelve la promesa después de hacer clic en el botón de Swal
+              resolve(); // promise ends after clicking OK on the alert
             });
           }
         }
@@ -117,6 +140,7 @@ function startGame() {
   });
 }
 
+// ----CHARACTERS JUMP----
 function jump() {
   jumping = 1;
   let jumpCount = 0;
@@ -124,6 +148,7 @@ function jump() {
     var characterTop = parseInt(
       window.getComputedStyle(character).getPropertyValue("top")
     );
+    // if its playing, not in pause, not at the top, and not spamming jumps, it allows to jump
     if (characterTop > 6 && jumpCount < 15 && startStatus && !pauseStatus) {
       character.style.top = characterTop - 5 + "px";
     }
@@ -136,6 +161,7 @@ function jump() {
   }, 10);
 }
 
+// ----BEST SCORE UPDATING----
 function updateBestScore(counter) {
   let bestScore = localStorage.getItem("best-score") || 0;
   if (counter > bestScore) {
@@ -144,3 +170,26 @@ function updateBestScore(counter) {
   }
   bestScoreMarker.innerHTML = `Mejor Puntaje: ${bestScore}`;
 }
+// executes first time to get best score if there is one
+updateBestScore();
+
+// listen for keys to play with keyboard
+window.addEventListener("keydown", function (event) {
+  if (event.key == "Escape") {
+    if (!pauseStatus) {
+      pauseGame();
+    } else {
+      if (pauseStatus && event.key == "Escape") {
+        resumeGame();
+      }
+    }
+  }
+  if (
+    (!pauseStatus && event.key == " ") ||
+    event.key == "ArrowUp" ||
+    event.key == "w" ||
+    event.key == "W"
+  ) {
+    jump();
+  }
+});
