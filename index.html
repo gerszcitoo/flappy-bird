@@ -9,11 +9,24 @@
     <title>Flappy Bird</title>
     <link rel="stylesheet" href="./src/style.css" />
     <link href="https://fonts.cdnfonts.com/css/8bit-wonder" rel="stylesheet" />
+    <link
+      rel="shortcut icon"
+      href="./assets/Flappy-Bird.png"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <!-- ---MAIN MENU--- -->
     <div id="menu">
       <button id="start" class="button block large primary">Empezar</button>
+      <button
+        id="start"
+        class="button block large primary"
+        onclick="location.href='./pages/best-scores.html';"
+        value="Go to Google"
+      >
+        Mejores Puntajes
+      </button>
     </div>
     <div id="best-score"></div>
     <!-- ---GAME--- -->

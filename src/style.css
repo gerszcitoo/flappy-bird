@@ -19,6 +19,9 @@ body {
   border: 1px solid black;
   margin: auto;
   overflow: hidden;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
 }
 
 .grass {
@@ -97,6 +100,25 @@ body {
   /* border: 1px solid red; */
 }
 
+.animate {
+  animation-name: flappy, flappy1;
+  animation-duration: 300ms, 300ms;
+  animation-timing-function: ease-in-out, ease-out;
+  animation-delay: 0ms, 0ms;
+  animation-iteration-count: 1, 1;
+}
+
+@keyframes flappy {
+  to {
+    transform: rotate(-200deg) translate(0px, 0px);
+  }
+}
+@keyframes flappy {
+  to {
+    transform: translate(0px, 0px);
+  }
+}
+
 #score {
   position: fixed;
   top: 20px;
@@ -114,8 +136,10 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 50px;
   overflow: hidden;
 }
 

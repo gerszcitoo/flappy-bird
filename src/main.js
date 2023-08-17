@@ -15,6 +15,7 @@ let counter = 0;
 let pauseStatus = false;
 let startStatus = false;
 let jumpKeyPressed = false;
+let hasPlayed = false;
 
 // -------------MENU INTERFACE-------------
 
@@ -90,7 +91,8 @@ function startGame() {
       // hides menu interface
       menu.style.display = "none";
       bestScoreMarker.style.display = "none";
-      var gameInterval = setInterval(function () {
+      hasPlayed = true;
+      var gameInterval = setInterval(async function () {
         if (!pauseStatus) {
           // update score
           score.innerHTML = `Puntos: ${counter}`;
@@ -119,21 +121,44 @@ function startGame() {
             clearInterval(gameInterval);
             game.style.display = "none";
             score.style.display = "none";
-            Swal.fire({
+            // generates alert to insert players name
+            const { value: playerName } = await Swal.fire({
               icon: "error",
               title: "¡Perdiste!",
-              text: `Tu Puntaje: ${counter}`,
-              allowOutsideClick: false,
-              showConfirmButton: true,
-            }).then(() => {
-              menu.style.display = "flex";
-              bestScoreMarker.style.display = "block";
-              character.style.top = 100 + "px";
-              updateBestScore(counter);
-              counter = 0;
-              startStatus = false;
-              resolve(); // promise ends after clicking OK on the alert
+              input: "text",
+              inputLabel: "Nombre",
+              inputPlaceholder: "Ingresa tu nombre...",
+              inputAttributes: {
+                "aria-label": "Ingresa tu nombre...",
+              },
+              showCancelButton: false,
+              onOpen: () => {
+                const input = document.querySelector("#swal2-input");
+                if (input) {
+                  input.setAttribute("autocomplete", "off");
+                }
+              },
+              inputValidator: (value) => {
+                if (!value) {
+                  return "Debes ingresar un nombre";
+                }
+              },
             });
+            if (playerName) {
+              Swal.fire({
+                icon: "success",
+                title: "¡Puntaje guardado!",
+                text: "Tu puntaje se guardo exitosamente.",
+              }).then(() => {
+                menu.style.display = "flex";
+                bestScoreMarker.style.display = "block";
+                character.style.top = 100 + "px";
+                updateBestScores(counter, playerName);
+                counter = 0;
+                startStatus = false;
+                resolve(); // promise ends after clicking OK on the alert
+              });
+            }
           }
         }
       }, 10);
@@ -143,6 +168,10 @@ function startGame() {
 
 // ----CHARACTERS JUMP----
 function jump() {
+  character.classList.add("animate");
+  setTimeout(() => {
+    character.classList.remove("animate");
+  }, 300);
   jumping = 1;
   let jumpCount = 0;
   var jumpInterval = setInterval(function () {
@@ -162,17 +191,31 @@ function jump() {
   }, 10);
 }
 
-// ----BEST SCORE UPDATING----
-function updateBestScore(counter) {
-  let bestScore = localStorage.getItem("best-score") || 0;
-  if (counter > bestScore) {
-    bestScore = counter;
-    localStorage.setItem("best-score", bestScore);
+// ----BEST SCORES UPDATING----
+function updateBestScores(counter, playerName) {
+  let bestScores = JSON.parse(localStorage.getItem("flappy-best-scores")) || [];
+  // if the game started
+  if (hasPlayed) {
+    let scoreToCompare = { points: counter, player: playerName };
+    // if there's any score, it inserts the actual score into the array by order
+    if (bestScores.length > 0) {
+      bestScores.sort((a, b) => b.points - a.points);
+      let insertIndex = bestScores.findIndex(
+        (obj) => obj.points < scoreToCompare.points
+      );
+      if (insertIndex === -1) {
+        insertIndex = bestScores.length;
+      }
+      bestScores.splice(insertIndex, 0, scoreToCompare);
+    } else {
+      bestScores.push(scoreToCompare);
+    }
+    bestScoreMarker.innerHTML = `Mejor Puntaje: ${bestScores[0].points}`;
+    localStorage.setItem("flappy-best-scores", JSON.stringify(bestScores));
   }
-  bestScoreMarker.innerHTML = `Mejor Puntaje: ${bestScore}`;
 }
 // executes first time to get best score if there is one
-updateBestScore();
+updateBestScores();
 
 // listen for keys to play with keyboard
 window.addEventListener("keydown", function (event) {
