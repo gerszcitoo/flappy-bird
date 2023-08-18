@@ -25,12 +25,13 @@ body {
 }
 
 .grass {
-  height: 160vh;
+  height: 100vh;
   width: 100vw;
   position: absolute;
-  top: -366px;
-  background-image: url(../assets/grass.png);
+  background-image: url(../assets/grass-et24.png);
   z-index: 10;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #block {
