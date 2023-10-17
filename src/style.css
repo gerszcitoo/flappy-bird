@@ -5,7 +5,7 @@
 }
 
 body {
-  background-image: url("../assets/background.webp");
+  background-image: url("../assets/background.png");
   background-size: cover;
   background-position: bottom;
   background-repeat: no-repeat;
@@ -24,21 +24,10 @@ body {
   width: 100vw;
 }
 
-.grass {
-  height: 100vh;
-  width: 100vw;
-  position: absolute;
-  background-image: url(../assets/grass-et24.png);
-  z-index: 10;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 #block {
   width: 50px;
   height: 500px;
   position: relative;
-  /* left: 100%; */
   left: 400px;
   animation: block 2s infinite linear;
 }
@@ -73,18 +62,15 @@ body {
   background-image: url("../assets/pipe-green.png");
   background-repeat: no-repeat;
   background-size: cover;
-  bottom: 0;
+  bottom: -80px;
 }
 
 #hole {
   width: 50px;
   height: 150px;
-  /* background-color: white; */
-  /* border: 2px solid red; */
   position: relative;
   left: 400px;
   top: -500px;
-  /* display: none; */
   animation: block 2s infinite linear;
 }
 
@@ -96,9 +82,8 @@ body {
   background-repeat: no-repeat;
   position: absolute;
   top: 100px;
-  left: 50px;
-  z-index: 2;
-  /* border: 1px solid red; */
+  left: 400px;
+  z-index: 4;
 }
 
 .animate {
@@ -114,7 +99,8 @@ body {
     transform: rotate(-200deg) translate(0px, 0px);
   }
 }
-@keyframes flappy {
+
+@keyframes flappy1 {
   to {
     transform: translate(0px, 0px);
   }
@@ -124,12 +110,17 @@ body {
   position: fixed;
   top: 20px;
   right: 20px;
+  color: white;
+  -webkit-text-stroke: 2px black;
+  z-index: 4;
 }
 
 #best-score {
   position: fixed;
   top: 20px;
   right: 20px;
+  color: white;
+  -webkit-text-stroke: 2px black;
 }
 
 /* -----MAIN MENU----- */
@@ -149,7 +140,6 @@ body {
 }
 
 /* ---START BUTTON--- */
-
 .container {
   width: 300px;
 }
@@ -276,7 +266,44 @@ body {
   box-shadow: 0 0.5em 0 0 rgba(0, 0, 0, 0.2);
 }
 
-/* -----PAUSE SCREEN----- */
+/* ----REDEFINED PAUSE BUTTON---- */
+.pause-button {
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  border-style: solid;
+  border-width: 30px 0 30px 45px;
+  border-color: transparent transparent transparent #202020;
+  cursor: pointer;
+  will-change: border-width;
+  transition: all 0.2s ease;
+  margin-top: 100px;
+}
+
+.pause-button.paused {
+  border-style: double;
+  border-width: 0px 0 0px 45px;
+}
+
+.pause-button:hover {
+  border-color: transparent transparent transparent #404040;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(90deg); }
+}
+
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+
+
+/* -----PAUSE SCREEN----- */ 
 #pause-menu {
   display: flex;
   justify-content: center;
