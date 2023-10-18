@@ -85,7 +85,7 @@ function generateObstacle() {
     let positionBottomBar = {
       pos: 500 - topBar.offsetHeight - holePosition.height,
     };
-    bottomBar.style.height = `${positionBottomBar.pos+80}px`;
+    bottomBar.style.height = `${positionBottomBar.pos+114}px`;
   } else {
     bottomBar.style.height = "0px";
   }
@@ -145,7 +145,7 @@ function startGame() {
           var cTop = -(500 - characterTop);
           // lose condition
           if (
-            characterTop > 550 ||
+            characterTop > 584 ||
             (blockLeft < 20 &&
               blockLeft > -50 &&
               (cTop < holeTop || cTop > holeTop + 130))
