@@ -6,25 +6,52 @@
   gap: 50px;
   width: 100vw;
   height: 100vh;
+  font-family: '8bit-wonder', sans-serif;
+  color: #484848;
 }
 
 table {
-  border-collapse: collapse;
-  width: 100%;
+  border-collapse: separate;
+  border: none;
+  width: 80%;
+  margin: 0 auto;
+  table-layout: auto;
+  box-shadow: 2px 2px 6px 0px  rgba(0,0,0,0.3);
+  border-radius: 10px;
+  font-size: 1.2em;
+  overflow: hidden;
 }
 
-th,
-td {
-  border: 1px solid black;
-  padding: 8px;
+th, td {
+  border: none;
+  padding: 12px;
   text-align: left;
 }
 
 th {
+  background: linear-gradient(135deg, #6a8b94 0%, #93bfac 39%, #b7e2c8 100%);
+  color: #ffffff;
+  border-radius: 10px 10px 0 0;
+}
+
+td {
+  background-color: #F6F6F6;
+}
+
+tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+  cursor: default;
 }
 
 .ranking {
   max-height: 700px;
-  overflow: scroll;
+  overflow: auto;
+}
+
+.ranking::-webkit-scrollbar {
+    display: none;
 }

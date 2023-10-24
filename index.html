@@ -32,7 +32,6 @@
     <!-- ---GAME--- -->
     <div id="score"></div>
     <div id="game" onclick="jump()" style="display: none">
-      <div class="grass"></div>
       <div id="block">
         <div class="bar" id="top-bar"></div>
         <div class="bar" id="bottom-bar"></div>
@@ -41,9 +40,8 @@
       <div id="character"></div>
       <!-- ---PAUSE MENU--- -->
       <div id="pause-menu">
-        <button id="pause">Pausa</button>
-        <button id="resume" style="display: none">Continuar</button>
-      </div>
+        <div class="pause-button" id="pause-button"></div>
+      </div>    
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
